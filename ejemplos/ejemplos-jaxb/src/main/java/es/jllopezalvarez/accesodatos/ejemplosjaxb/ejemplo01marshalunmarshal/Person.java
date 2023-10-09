@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.*;
 @XmlRootElement
 public class Person {
     private String id;
-    @XmlTransient
+    //@XmlTransient
     private String firstName;
     private String lastName;
 
@@ -20,6 +20,7 @@ public class Person {
     private Person() {
     }
 
+    @XmlAttribute(name = "personId")
     public String getId() {
         return id;
     }
@@ -28,7 +29,7 @@ public class Person {
         this.id = id;
     }
 
-    @XmlAttribute
+    //@XmlAttribute
     public String getFirstName() {
         return firstName;
     }

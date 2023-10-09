@@ -10,20 +10,20 @@ public class Ejemplo04XmlToList {
 
     private static final String PEOPLE_XML = """
             <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-            <people>
-                    <person firstName="Alisha">
-                    <id>288-74-4563</id>
-                    <lastName>Boyer</lastName>
-                </person>
-                    <person firstName="Rico">
-                    <id>512-97-5095</id>
-                    <lastName>Metz</lastName>
-                </person>
-                    <person firstName="Kristyn">
-                    <id>529-21-0904</id>
-                    <lastName>Reilly</lastName>
-                </person>
-            </people>
+                     <people>
+                         <person personId="275-52-3622">
+                             <firstName>Natisha</firstName>
+                             <lastName>Jaskolski</lastName>
+                         </person>
+                         <person personId="322-22-5641">
+                             <firstName>Morton</firstName>
+                             <lastName>Hudson</lastName>
+                         </person>
+                         <person personId="059-58-4167">
+                             <firstName>Chance</firstName>
+                             <lastName>Tremblay</lastName>
+                         </person>
+                     </people>
             """;
 
     public static void main(String[] args) throws JAXBException {

@@ -9,8 +9,8 @@ import java.io.StringReader;
 public class Ejemplo03XmlToObject {
 
     private static final String PERSON_XML = """
-            <person firstName="Vance">
-                <id>727-26-8188</id>
+            <person personId="727-26-8188">
+                <firstName>Vance</firstName>
                 <lastName>Corwin</lastName>
             </person>
             """;
