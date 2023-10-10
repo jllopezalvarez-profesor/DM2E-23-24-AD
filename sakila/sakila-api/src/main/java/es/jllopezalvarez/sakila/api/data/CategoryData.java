@@ -1,8 +1,8 @@
 package es.jllopezalvarez.sakila.api.data;
 
 
+import es.jllopezalvarez.sakila.api.config.DbConfiguration;
 import es.jllopezalvarez.sakila.api.models.Category;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -14,15 +14,7 @@ import java.util.Optional;
 @Service
 public class CategoryData {
 
-    @Value("${cadenaConexion}")
-    private String connectionString;
-    @Value("${nombreUsuario}")
-    private String username;
-    @Value("${contrasenia}")
-    private String password;
-//    private static final String CONNECTION_STRING = "jdbc:mysql://localhost/sakila";
-//    private static final String USER = "sakilauser";
-//    private static final String PASSWORD = "sakilauserpassword";
+    private final DbConfiguration dbConfig;
     private static final String SQL_GET_ALL = "select category_id, name, last_update from category";
     private static final String SQL_GET_BY_ID = "select category_id, name, last_update from category where category_id = ?";
     private static final String SQL_CREATE = "insert into category (name) values (?)";
@@ -32,12 +24,17 @@ public class CategoryData {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_LAST_UPDATE = "last_update";
 
+    public CategoryData(DbConfiguration dbConfig) {
+        this.dbConfig = dbConfig;
+    }
+
+
     public List<Category> getAll() {
         // Creamos la colección para almacenar los resultados.
         List<Category> results = new ArrayList<>();
 
         // Abrimos conexión, Statement y ResultSet
-        try (Connection connection = DriverManager.getConnection(connectionString, username, password);
+        try (Connection connection = DriverManager.getConnection(dbConfig.getConnectionString(), dbConfig.getUsername(), dbConfig.getPassword());
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(SQL_GET_ALL)) {
             // Recorremos los registros
@@ -55,7 +52,7 @@ public class CategoryData {
 
     public Optional<Category> getById(int id) {
         // Abrimos conexión y creamos preparedStatement
-        try (Connection connection = DriverManager.getConnection(connectionString, username, password);
+        try (Connection connection = DriverManager.getConnection(dbConfig.getConnectionString(), dbConfig.getUsername(), dbConfig.getPassword());
              PreparedStatement statement = connection.prepareStatement(SQL_GET_BY_ID)) {
             // Parametrizamos la sentencia
             statement.setInt(1, id);
@@ -79,7 +76,7 @@ public class CategoryData {
 
     public Category create(@RequestBody Category category) {
         // Abrimos conexión y creamos preparedStatement. Usamos Statement.RETURN_GENERATED_KEYS para poder recuperar el ID de la categoría creada, y usarlo para devolver el objeto
-        try (Connection connection = DriverManager.getConnection(connectionString, username, password);
+        try (Connection connection = DriverManager.getConnection(dbConfig.getConnectionString(), dbConfig.getUsername(), dbConfig.getPassword());
              PreparedStatement statement = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS)) {
             // Parametrizamos la sentencia
             statement.setString(1, category.getName());
@@ -112,7 +109,7 @@ public class CategoryData {
 
     public Category update(Category category) {
         // Abrimos conexión y creamos preparedStatement.
-        try (Connection connection = DriverManager.getConnection(connectionString, username, password);
+        try (Connection connection = DriverManager.getConnection(dbConfig.getConnectionString(), dbConfig.getUsername(), dbConfig.getPassword());
              PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
             // Parametrizamos la sentencia.
             statement.setString(1, category.getName());
@@ -139,7 +136,7 @@ public class CategoryData {
 
     public void delete(int id) {
         // Abrimos conexión y creamos preparedStatement.
-        try (Connection connection = DriverManager.getConnection(connectionString, username, password);
+        try (Connection connection = DriverManager.getConnection(dbConfig.getConnectionString(), dbConfig.getUsername(), dbConfig.getPassword());
              PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
             // Parametrizamos la sentencia.
             statement.setInt(1, id);
