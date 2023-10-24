@@ -55,6 +55,8 @@ public class OrderHandler extends DefaultHandler {
                 break;
             case "deliverynotes":
                 // Inicio de elemento con notas de entrega
+                // Inicializamos el string builder para texto
+                text.setLength(0); // Más rápido que hacer new StringBuilder
                 inDeliveryNotes = true;
                 break;
             case "item":

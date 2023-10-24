@@ -51,6 +51,7 @@ public class Ejemplo01CrearXmlDom {
             personElement.setAttribute("id", person.getId());
             // Creamos el elemento para la fecha de nacimiento y la añadimos
             Element birthDateElement = xmlDocument.createElement("birthDate");
+            birthDateElement.setTextContent(person.getBirthDate().toString());
             personElement.appendChild(birthDateElement);
             // Creamos elemento para el nombre (que contendrá dos elementos)
             Element nameElement = xmlDocument.createElement("name");
