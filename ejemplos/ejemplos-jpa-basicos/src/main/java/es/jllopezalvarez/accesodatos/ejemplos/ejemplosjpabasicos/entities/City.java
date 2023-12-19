@@ -21,12 +21,13 @@ public class City {
     @Basic
     @Column(name = "city", nullable = false, length = 50)
     private String city;
-//    @Basic
-//    @Column(name = "country_id", nullable = false, updatable = false, insertable = false)
-//    private short countryId;
+    //    @Basic
+    //    @Column(name = "country_id", nullable = false, updatable = false, insertable = false)
+    //    private short countryId;
     @Basic
-    @Column(name = "last_update", nullable = false)
+    @Column(name = "last_update", nullable = false, insertable = false, updatable = false)
     private Timestamp lastUpdate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", referencedColumnName = "country_id", nullable = false)
     private Country country;

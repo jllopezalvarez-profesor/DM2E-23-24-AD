@@ -23,7 +23,7 @@ public class Country {
     @Column(name = "country", nullable = false, length = 50)
     private String country;
     @Basic
-    @Column(name = "last_update", nullable = false)
+    @Column(name = "last_update", nullable = false, insertable = false, updatable = false)
     private Timestamp lastUpdate;
     @OneToMany(mappedBy = "country")
     private Collection<City> cities;
