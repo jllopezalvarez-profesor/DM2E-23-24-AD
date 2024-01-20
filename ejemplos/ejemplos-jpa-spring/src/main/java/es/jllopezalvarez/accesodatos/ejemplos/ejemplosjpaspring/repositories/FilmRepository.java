@@ -1,6 +1,6 @@
-package es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.repositories;
+package es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.repositories;
 
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.entities.Film;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities.Film;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;

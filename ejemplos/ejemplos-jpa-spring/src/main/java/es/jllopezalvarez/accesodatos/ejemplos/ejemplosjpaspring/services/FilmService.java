@@ -1,7 +1,9 @@
-package es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.services;
+package es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services;
 
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.entities.Film;
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.repositories.FilmRepository;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities.Film;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.repositories.FilmRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -33,6 +35,10 @@ public class FilmService {
 
     public Collection<Film> findByIdAndTitle(Collection<Short> ids, String busqueda) {
         return filmRepository.findByFilmIdInAndTitleContainingOrderByTitle(ids, busqueda);
+    }
+
+    public Page<Film> findAll(Pageable page) {
+        return filmRepository.findAll(page);
     }
 
 }

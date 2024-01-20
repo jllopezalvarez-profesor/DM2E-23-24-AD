@@ -1,10 +1,11 @@
-package es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.services;
+package es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services;
 
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.entities.Category;
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.repositories.CategoryRepository;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities.Category;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -75,4 +76,21 @@ public class CategoryService {
     public Category save(Category category) {
         return categoryRepository.save(category);
     }
+
+    public Collection<Category> getAllJpql() {
+        return categoryRepository.getAllJpql();
+    }
+
+    public Collection<Category> getAllSql() {
+        return categoryRepository.getAllSql();
+    }
+
+    public Collection<Category> searchWithLikeJpql(String search) {
+        return categoryRepository.searchWithLikeJpql(search);
+    }
+
+    public Collection<Category> searchWithLikeSql(String search) {
+        return categoryRepository.searchWithLikeSql(search);
+    }
+
 }

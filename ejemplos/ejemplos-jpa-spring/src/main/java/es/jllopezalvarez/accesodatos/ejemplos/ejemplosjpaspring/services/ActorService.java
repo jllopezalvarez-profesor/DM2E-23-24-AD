@@ -1,7 +1,7 @@
-package es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.services;
+package es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services;
 
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.entities.Actor;
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.repositories.ActorRepository;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities.Actor;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.repositories.ActorRepository;
 import org.springframework.stereotype.Service;
 
 @Service

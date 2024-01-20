@@ -1,4 +1,4 @@
-package es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.entities;
+package es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;

@@ -1,7 +1,7 @@
-package es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.services;
+package es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services;
 
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.entities.InventoryItem;
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosspringdata.ejemplocrudrepository.repositories.InventoryRepository;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities.InventoryItem;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.repositories.InventoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
