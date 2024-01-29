@@ -1,5 +1,6 @@
 package es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services;
 
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.dto.FilmDto;
 import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities.Film;
 import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.repositories.FilmRepository;
 import org.springframework.data.domain.Page;
@@ -41,4 +42,11 @@ public class FilmService {
         return filmRepository.findAll(page);
     }
 
+    public Collection<FilmDto> findFilmDtoByLanguageId(int languageId) {
+        return filmRepository.findByLanguageLanguageId(languageId);
+    }
+
+    public Optional<FilmDto> findFilmDtoById(int filmId) {
+        return filmRepository.findFilmDtoById(filmId);
+    }
 }

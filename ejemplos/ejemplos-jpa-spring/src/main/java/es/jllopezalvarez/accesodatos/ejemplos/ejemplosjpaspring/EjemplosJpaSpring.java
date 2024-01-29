@@ -1,12 +1,12 @@
 package es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring;
 
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.dto.AddressDto;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.dto.CustomerPaymentsDto;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.dto.FilmDto;
 import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities.Category;
 import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities.Film;
 import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.entities.InventoryItem;
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services.ActorService;
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services.CategoryService;
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services.FilmService;
-import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services.InventoryService;
+import es.jllopezalvarez.accesodatos.ejemplos.ejemplosjpaspring.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,25 +15,30 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 // Al implementar CommandLineRunner se ejecuta el método run de
 // la clase tras haberse inicializado la aplicación Spring
 @SpringBootApplication
 public class EjemplosJpaSpring implements CommandLineRunner {
 
+
+    private Scanner scanner = new Scanner(System.in);
+
     private final ActorService actorService;
     private final FilmService filmService;
     private final CategoryService categoryService;
     private final InventoryService inventoryService;
+    private final StoreService storeService;
+    private final CustomerService customerService;
 
-    public EjemplosJpaSpring(ActorService actorService, CategoryService categoryService, FilmService filmService, InventoryService inventoryService) {
+    public EjemplosJpaSpring(ActorService actorService, CategoryService categoryService, FilmService filmService, InventoryService inventoryService, StoreService storeService, CustomerService customerService) {
         this.actorService = actorService;
         this.categoryService = categoryService;
         this.filmService = filmService;
         this.inventoryService = inventoryService;
+        this.storeService = storeService;
+        this.customerService = customerService;
     }
 
     public static void main(String[] args) {
@@ -52,8 +57,13 @@ public class EjemplosJpaSpring implements CommandLineRunner {
 //        ejemplo07BuscarCopiasNoAlquiladas();
 //        ejemplo08ConsultasPersonalizadas();
 //        ejemplo09ConsultasPersonalizadasConParametros();
-        ejemplo10ConsultaPaginada();
+//        ejemplo10ConsultaPaginada();
+//        ejemplo11DtoConsultaDerivada();
+//        ejemplo12DtoJPQLConOptional();
+        ejemplo13DtoJPQLConJoin();
+//        ejemplo14DtoConRelaciones();
     }
+
 
     private void ejemplo01ConsultaRepo() {
         System.out.println("Método ejemplo01ConsultaRepo: Lee, usando los métodos count() de los repositorios, la cantidad de categorías y de actores");
@@ -211,4 +221,71 @@ public class EjemplosJpaSpring implements CommandLineRunner {
 //        }
         System.out.println("-".repeat(100));
     }
+
+    private void ejemplo11DtoConsultaDerivada() {
+        System.out.println("Método ejemplo11DtoConsultaDerivada: Lee sólo algunos datos de Film, usando clase como DTO, sin recuperar aquellos que no necesite.");
+        System.out.println("Si se configura la propiedad spring.jpa.show-sql = true, se podrá ver que no se piden más columnas de las necesarias.");
+
+        // Llamamos al servicio que busca detalles de películas, pero sólo devuelve un DTO
+        int languageId = 1;
+        Collection<FilmDto> films = filmService.findFilmDtoByLanguageId(languageId);
+
+        // Mostramos los datos
+        films.forEach(f -> System.out.printf("%d - %s - %d\n", f.getFilmId(), f.getTitle(), f.getReleaseYear()));
+
+        System.out.println("Fin de ejemplo11DtoConsultaDerivada");
+    }
+
+    private void ejemplo12DtoJPQLConOptional() {
+        System.out.println("Método ejemplo12DtoJPQLConOptional: Lee sólo algunos datos de Film , sin recuperar aquellos que no necesite.");
+        System.out.println("Es una búsqueda de una película por Id, lo que puede devolver o un solo dto o ninguno, y por eso se usa optional");
+        System.out.println("Si se configura la propiedad spring.jpa.show-sql = true, se podrá ver que no se piden más columnas de las necesarias.");
+
+        // Pedimos el id de la película al usuario
+        System.out.print("Introduce el id de una película: ");
+        int filmId = scanner.nextInt();
+
+        // Buscamos el DTO
+        Optional<FilmDto> film = filmService.findFilmDtoById(filmId);
+
+        // Comprobamos is hemos encontado la película y mostramos los datos
+        if (film.isEmpty()) {
+            System.out.printf("Película con id %d no encontrada.\n", filmId);
+        } else {
+            System.out.printf("Película con id %d encontrada: %s.\n", filmId, film.get().getTitle());
+        }
+
+        System.out.println("Fin de ejemplo12DtoJPQLConOptional");
+    }
+
+
+    private void ejemplo13DtoJPQLConJoin() {
+        System.out.println("Método ejemplo13DtoJPQLConJoin: Lee DTO de direcciones de tiendas, pero incluye en el DTO información de ciudad y país.");
+        System.out.println("Si se configura la propiedad spring.jpa.show-sql = true, se podrá ver que no se piden más columnas de las necesarias.");
+
+        Collection<AddressDto> addresses = storeService.findAllAddressesDto();
+
+        addresses.forEach(a -> System.out.printf("%d - %s - %s - %s\n", a.getAddressId(), a.getPostalCode(), a.getCity(), a.getCountry()));
+
+        System.out.println("Fin de ejemplo13DtoJPQLConJoin");
+    }
+
+    private void ejemplo14DtoConRelaciones() {
+        System.out.println("Método ejemplo14DtoConRelaciones: Lee DTO de clientes y los pagos que realizan.");
+        System.out.println("Si se configura la propiedad spring.jpa.show-sql = true, se podrá ver que no se piden más columnas de las necesarias.");
+
+        Short[] ids = {1, 2, 3, 4};
+        Collection<CustomerPaymentsDto> customersPayments = customerService.findPaymentsByCustomerIdIn(Arrays.asList(ids));
+
+        customersPayments.forEach(this::showPayments);
+
+        System.out.println("Fin de ejemplo14DtoConRelaciones");
+    }
+
+    private void showPayments(CustomerPaymentsDto customerPaymentsDto) {
+        System.out.printf("%s - %s %s\n", customerPaymentsDto.getCustomerId(), customerPaymentsDto.getFirstName(), customerPaymentsDto.getLastName());
+        customerPaymentsDto.getPayments().forEach(cp-> System.out.printf("\t%s - %s\n", cp.getPaymentDate(), cp.getAmount()));
+    }
+
+
 }
