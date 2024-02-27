@@ -18,8 +18,8 @@ public class Product {
     private int productId;
     private String productName;
 
-    @ManyToMany
-    @JoinTable(name = "categories_products", joinColumns = {@JoinColumn(name = "category_id")}, inverseJoinColumns = {@JoinColumn(name = "product_id")})
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "categories_products", joinColumns = {@JoinColumn(name = "product_id")}, inverseJoinColumns = {@JoinColumn(name = "category_id")})
     private List<Category> categories;
 
 }
